@@ -29,7 +29,7 @@ var DefaultFormatter Formatter = func(entry LogEntry) string {
 	// 日志等级大写
 	level := entry.Level.String()
 
-	fileLine := fmt.Sprintf("%s:%d", TrimCallerPath(entry.File, 2), entry.Line)
+	fileLine := fmt.Sprintf("[%s:%d]", TrimCallerPath(entry.File, 1), entry.Line)
 	// 日志前缀
 	prefix := ""
 	if entry.Prefix != "" {

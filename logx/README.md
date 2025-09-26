@@ -89,27 +89,18 @@ func main() {
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/chihqiang/gox/logx"
 	"os"
-	"time"
 )
 
 func main() {
 	logger := logx.New(os.Stdout)
-	
-	// 自定义日志格式化器
-	customFormatter := func(entry logx.LogEntry) string {
-		timestamp := entry.Time.Format("2006-01-02")
-		return fmt.Sprintf("%s [%s] %s", 
-			timestamp, 
-			entry.Level.String(), 
-			entry.Message)
-	}
-	
 	// 设置自定义格式化器
-	logger.SetFormatter(customFormatter)
-	
+	logger.SetFormatter(func(entry logx.LogEntry) []byte {
+		marshal, _ := json.Marshal(entry)
+		return marshal
+	})
 	// 输出日志
 	logger.Info("使用自定义格式化器的日志")
 }
